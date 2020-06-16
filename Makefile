@@ -4,20 +4,29 @@ all: $(languages)
 .PHONY: all
 
 $(languages):
-	mkdir -p $(CURDIR)/dist/$@
+	rm -rf $(CURDIR)/out/$@
+	mkdir -p $(CURDIR)/out/$@
 	docker run --rm -it \
-		-v $(CURDIR):/local \
-		--workdir /local \
+		-v $(CURDIR):/cwd \
+		--workdir /cwd \
 		--user "$(shell id -u):$(shell id -g)" \
 		swaggerapi/swagger-codegen-cli-v3 generate \
 			-l $@ \
 			-c config/$@.json \
 			-i schema/schema.yaml \
-			-o dist/$@
+			-o out/$@
+	cp $(CURDIR)/LICENSE $(CURDIR)/out/$@/LICENSE
 
-install-python: python
-	python3 -m pip install setuptools
-	python3 $(CURDIR)/dist/python/setup.py install
+python-requirements:
+	python3 -m pip install setuptools twine
+
+python-install: python-requirements python
+	cd $(CURDIR)/out/python && python3 $(CURDIR)/out/python/setup.py install
+
+python-upload: python-requirements python
+	rm -rf $(CURDIR)/out/python/dist/*
+	cd $(CURDIR)/out/python && python3 setup.py sdist bdist_wheel
+	python3 -m twine upload --repository testpypi -u $(USERNAME) -p $(PASSWORD) $(CURDIR)/out/python/dist/*
 
 clean:
-	rm -fr $(CURDIR)/dist/*
+	rm -rf $(CURDIR)/out
