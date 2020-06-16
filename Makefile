@@ -7,15 +7,14 @@ $(languages):
 	rm -rf $(CURDIR)/out/$@
 	mkdir -p $(CURDIR)/out/$@
 	docker run --rm -it \
-		-v $(CURDIR):/cwd \
-		--workdir /cwd \
+		-v $(CURDIR):/local \
+		--workdir /local \
 		--user "$(shell id -u):$(shell id -g)" \
-		swaggerapi/swagger-codegen-cli-v3 generate \
-			-l $@ \
+		openapitools/openapi-generator-cli generate \
+			-i schema/api-docs.yaml \
 			-c config/$@.json \
-			-i schema/schema.yaml \
+			-g $@ \
 			-o out/$@
-	cp $(CURDIR)/LICENSE $(CURDIR)/out/$@/LICENSE
 
 python-requirements:
 	python3 -m pip install setuptools twine
