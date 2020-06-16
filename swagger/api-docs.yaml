@@ -541,6 +541,149 @@ paths:
           content:
             application/json:
               type: string  # TODO
+  /product_search/secure/v5/products/lookup:
+    get:
+      summary: TODO
+      description: TODO
+      operationId: lookup
+      tags:
+        - product-search
+      parameters:
+        - in: query
+          name: searchText
+          schema:
+            type: string
+          required: true
+          description: Text to search for
+        - in: query
+          name: producTypeId
+          schema:
+          # TODO type:
+          # TODO description:
+        - in: query
+          name: sortColumns
+          schema:
+          # TODO type: object
+          # TODO description:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 0
+            # TODO maximum:
+          # TODO description:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            # TODO minimum:
+            # TODO maximum:
+          # TODO description:
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  offset:
+                    type: integer
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        isin:
+                          type: string
+                        symbol:
+                          type: string
+                        contractSize:
+                          type: number
+                        productType:
+                          type: string
+                        productTypeId:
+                          type: integer
+                        tradable:
+                          type: boolean
+                        category:
+                          type: string
+                        currency:
+                          type: string
+                        exchangeId:
+                          type: integer
+                        orderTimeTypes:
+                          type: array
+                          items:
+                            type: string
+                        gtcAllowed:
+                          type: boolean
+                        buyOrderTypes:
+                          type: array
+                          items:
+                            type: string
+                        sellOrderTypes:
+                          type: array
+                          items:
+                            type: string
+                        productBitTypes:
+                          type: array
+                          items:
+                            type: string
+                        marketAllowed:
+                          type: boolean
+                        limitHitOrderAllowed:
+                          type: boolean
+                        stoplossAllowed:
+                          type: boolean
+                        stopLimitOrderAllowed:
+                          type: boolean
+                        joinOrderAllowed:
+                          type: boolean
+                        trailingStopOrderAllowed:
+                          type: boolean
+                        combinedOrderAllowed:
+                          type: boolean
+                        sellAmountAllowed:
+                          type: boolean
+                        isFund:
+                          type: boolean
+                        closePrice:
+                          type: number
+                        closePriceDate:
+                          type: string
+                        feedQuality:
+                          type: string
+                        orderBookDepth:
+                          type: integer
+                        vwdIdentifierType:
+                          type: string
+                        vwdId:
+                          type: string
+                        qualitySwitchable:
+                          type: boolean
+                        qualitySwitchFree:
+                          type: boolean
+                        vwdModuleId:
+                          type: integer
+                        feedQualitySecondary:
+                          type: string
+                        orderBookDepthSecondary:
+                          type: integer
+                        vwdIdentifierTypeSecondary:
+                          type: string
+                        vwdIdSecondary:
+                          type: string
+                        qualitySwitchableSecondary:
+                          type: boolean
+                        qualitySwitchFreeSecondary:
+                          type: boolean
+                        vwdModuleIdSecondary:
+                          type: integer
   /trading/secure/v5/update/{intAccount};jsessionid={sessionId}:
     get:
       summary: Returns the config
@@ -567,7 +710,35 @@ paths:
             type: integer
             minimum: 0
             maximum: 0
-          description: Show portfolio (Set to 0)
+          description: Get portfolio (Set to 0)
+        - in: query
+          name: cashFunds
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 0
+          description: Get cash funds (Set to 0)
+        - in: query
+          name: orders
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 0
+          description: Get orders (Set to 0)
+        - in: query
+          name: historicalOrders
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 0
+          description: Get historical orders (Set to 0)
+        - in: query
+          name: historicalOrders
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 0
+          description: Get transactions (Set to 0)
       responses:
         200:
           description: OK
@@ -576,3 +747,4 @@ paths:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/PortfolioResponse'
+                  # TODO - $ref: '#/components/schemas/PortfolioResponse'

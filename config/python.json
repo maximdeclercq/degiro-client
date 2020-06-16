@@ -1,6 +1,6 @@
 {
   "packageName": "degiro_client",
   "projectName": "degiro-client",
-  "packageVersion": "0.0.1a1",
+  "packageVersion": "0.0.1a1.dev3",
   "packageUrl": "https://github.com/maximdeclercq/degiro-client"
 }
