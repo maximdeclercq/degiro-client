@@ -10,17 +10,18 @@ $(languages):
 		-v $(CURDIR):/local \
 		--workdir /local \
 		--user "$(shell id -u):$(shell id -g)" \
-		openapitools/openapi-generator-cli generate \
-			-i schema/api-docs.yaml \
+		swaggerapi/swagger-codegen-cli-v3 generate \
+			-i swagger/api-docs.yaml \
 			-c config/$@.json \
-			-g $@ \
+			-l $@ \
 			-o out/$@
 
 python-requirements:
 	python3 -m pip install setuptools twine
 
 python-install: python-requirements python
-	cd $(CURDIR)/out/python && python3 $(CURDIR)/out/python/setup.py install
+	python3 -m pip uninstall degiro-client -y
+	cd $(CURDIR)/out/python && python3 $(CURDIR)/out/python/setup.py install --user --force
 
 python-upload: python-requirements python
 	rm -rf $(CURDIR)/out/python/dist/*
