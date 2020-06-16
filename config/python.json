@@ -1,0 +1,6 @@
+{
+  "packageName": "degiro_client",
+  "projectName": "Unofficial Degiro API Client",
+  "packageVersion": "0.0.1",
+  "packageUrl": "https://pypi.org/project/degiro-client/"
+}

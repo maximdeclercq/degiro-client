@@ -1,0 +1,318 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Unofficial Degiro API
+  description: Unofficial Degiro API
+servers:
+  - url: https://trader.degiro.nl
+components:
+  securitySchemes:
+    SessionIdAuth:
+      type: apiKey
+      in: qduery
+      name: sessionId
+    IntAccountAuth:
+      type: apiKey
+      in: query
+      name: intAccount
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        isPassCodeReset:
+          type: bool
+        isRedirectToMobile:
+          type: bool
+        queryParams:
+          type: object
+      required:
+        - username
+        - password
+    LoginResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        statusText:
+          type: string
+        sessionId:
+          type: string
+        redirectUrl:
+          type: string
+        locale:
+          type: string
+        isPassCodeEnabled:
+          type: boolean
+      required:
+        - status
+        - statusText
+        - sessionId
+    ClientResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            intAccount:
+              type: integer
+            clientRole:
+              type: string
+            effectiveClientRole:
+              type: string
+            contractType:
+              type: string
+            username:
+              type: string
+            displayName:
+              type: string
+            email:
+              type: string
+            firstContact:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                displayName:
+                  type: string
+                nationality:
+                  type: string
+                gender:
+                  type: string
+                dateOfBirth:
+                  type: string
+                placeOfBirth:
+                  type: string
+                countryOfBirth:
+                  type: string
+            address:
+              type: object
+              properties:
+                streetAddress:
+                  type: string
+                streetAddressNumber:
+                  type: integer
+                zip:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+            cellphoneNumber:
+              type: string
+            locale:
+              type: string
+            language:
+              type: string
+            culture:
+              type: string
+            bankAccount:
+              type: object
+              properties:
+                bankAccountId:
+                  type: integer
+                bic:
+                  type: string
+                iban:
+                  type: string
+                status:
+                  type: string
+            memberCode:
+              type: string
+            isWithdrawalAvailable:
+              type: boolean
+            isAllocationAvailable:
+              type: boolean
+            isIskClient:
+              type: boolean
+            isCollectivePortfolio:
+              type: boolean
+            isAmClientActive:
+              type: boolean
+            canUpgrade:
+              type: boolean
+          required:
+            - intAccount
+    ConfigResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            tradingUrl:
+              type: string
+            paUrl:
+              type: string
+            reportingUrl:
+              type: string
+            paymentServiceUrl:
+              type: string
+            cashSolutionsUrl:
+              type: string
+            productSearchUrl:
+              type: string
+            dictionaryUrl:
+              type: string
+            productTypesUrl:
+              type: string
+            companiesServiceUrl:
+              type: string
+            i18nUrl:
+              type: string
+            vwdQuotecastServiceUrl:
+              type: string
+            vwdNewsUrl:
+              type: string
+            vwdGossipsUrl:
+              type: string
+            firstLoginWizardUrl:
+              type: string
+            taskManagerUrl:
+              type: string
+            landingPath:
+              type: string
+            betaLandingPath:
+              type: string
+            mobileLandingPath:
+              type: string
+            loginUrl:
+              type: string
+            sessionId:
+              type: string
+            clientId:
+              type: string
+          required:
+            - sessionId
+            - clientId
+    PortfolioResponse:
+      type: object
+      properties:
+        lastUpdated:
+          type: integer
+        name:
+          type: string
+        value:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              id:
+                type: int
+              value:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    value: {}
+                    isAdded:
+                      type: boolean
+security:
+  - SessionIdAuth: []
+    IntAccountAuth:  []
+paths:
+  /login/secure/login:
+    post:
+      summary: Logs in
+      description: Logs in and returns the sessionId
+      operationId: login
+      tags:
+        - login
+      produces:
+        - application/json
+      requestBody:
+        description: A JSON object containing the login and password.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      security: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /login/secure/config:
+    get:
+      summary: Returns the config
+      description: Returns the config
+      operationId: config
+      tags:
+        - config
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigResponse'
+  /pa/secure/client:
+    get:
+      summary: Returns the client
+      description: Returns the client
+      operationId: client
+      tags:
+        - pa # meaning ???
+      produces:
+        - application/json
+      security:
+        - SessionIdAuth: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+  /trading/secure/v5/update/{intAccount};jsessionid={sessionId}:
+    get:
+      summary: Returns the config
+      description: Returns the config
+      operationId: update
+      tags:
+        - trading
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: intAccount
+          schema:
+            type: integer
+          required: true
+          description: Account ID
+        - in: path
+          name: sessionId
+          schema:
+            type: string
+          required: true
+          description: Session ID
+        - in: query
+          name: portfolio
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 0
+          description: Show portfolio (Set to 0)
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PortfolioResponse'

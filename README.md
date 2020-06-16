@@ -1,0 +1,1 @@
+# Unofficial OpenAPI 3 specification for the Degiro API
