@@ -14,6 +14,7 @@ $(languages):
 		swaggerapi/swagger-codegen-cli-v3 generate \
 			-i swagger/api-docs.yaml \
 			-c config/$@.json \
+			-t templates/$@ \
 			-l $@ \
 			-o out/$@
 

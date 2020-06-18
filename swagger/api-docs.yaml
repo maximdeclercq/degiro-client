@@ -3,6 +3,10 @@ info:
   version: 0.0.1
   title: Unofficial Degiro API
   description: Unofficial Degiro API
+  contact:
+    name: Maxim De Clercq
+    url: https://github.com/maximdeclercq/degiro-client
+    email: maximdeclercq00@gmail.com
 servers:
   - url: https://trader.degiro.nl
 components:
@@ -247,18 +251,23 @@ components:
           enum: [BUY, SELL]
         orderType:
           type: integer
-          minimum: 0
-          maximum: 1
-          description: >
+          enum: [0, 1, 2, 3]
+          description: |
             Order type:
-             * `0` - Continuous (Doorlopend)
-             * `1` - Day order (Dagorder)
+             * `0` - Limit Order
+             * `1` - Market Order
+             * `2` - Stoploss
+             * `3` - Stoplimit Order
         productId:
           type: string
           description: Product identifier
         timeType:
           type: integer
-          description: TODO
+          enum: [1, 3]
+          description: |
+            Time type:
+              * `1` - Day Order
+              * `3` - Permanent Order
         size:
           type: integer
           description: Size
@@ -866,8 +875,8 @@ paths:
                 $ref: '#/components/schemas/UpdateResponse'
   /trading/secure/v5/checkOrder;jsessionid={sessionId}:
     post:
-      summary: Returns the config
-      description: Returns the config
+      summary: TODO
+      description: TODO
       operationId: checkOrder
       tags:
         - trading
@@ -885,6 +894,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrderRequest'
+      security: []
       responses:
         200:
           description: OK
@@ -894,9 +904,9 @@ paths:
                 $ref: '#/components/schemas/CheckOrderResponse'
   /trading/secure/v5/order/{confirmationId};jsessionid={sessionId}:
     post:
-      summary: Returns the config
-      description: Returns the config
-      operationId: order
+      summary: TODO
+      description: TODO
+      operationId: confirmOrder
       tags:
         - trading
       parameters:
@@ -919,6 +929,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrderRequest'
+      security: []
       responses:
         200:
           description: OK
