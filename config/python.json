@@ -1,6 +1,7 @@
 {
   "gitUserId": "maximdeclercq",
   "gitRepoId": "degiro-client",
+  "excludeTests": true,
 
   "packageName": "degiro_client",
   "projectName": "degiro-client",

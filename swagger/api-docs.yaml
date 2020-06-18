@@ -894,7 +894,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrderRequest'
-      security: []
       responses:
         200:
           description: OK
@@ -929,7 +928,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrderRequest'
-      security: []
       responses:
         200:
           description: OK
@@ -937,3 +935,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderResponse'
+    delete:
+      summary: TODO
+      description: TODO
+      operationId: deleteOrder
+      tags:
+        - trading
+      parameters:
+        - in: path
+          name: orderId
+          schema:
+            type: string
+          required: true
+          description: Order ID
+        - in: path
+          name: sessionId
+          schema:
+            type: string
+          required: true
+          description: Session ID
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
